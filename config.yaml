@@ -1,0 +1,25 @@
+# config.yaml
+
+worker:
+  replicas: 8
+  resources:
+    limits:
+      cpu: 2
+      memory: 7.5G
+    requests:
+      cpu: 2
+      memory: 7.5G
+  env:
+    - name: EXTRA_CONDA_PACKAGES
+      value: numba xarray -c conda-forge
+    - name: EXTRA_PIP_PACKAGES
+      value: s3fs dask-ml --upgrade
+
+# We want to keep the same packages on the worker and jupyter environments
+jupyter:
+  enabled: true
+  env:
+    - name: EXTRA_CONDA_PACKAGES
+      value: numba xarray matplotlib -c conda-forge
+    - name: EXTRA_PIP_PACKAGES
+      value: s3fs dask-ml --upgrade
