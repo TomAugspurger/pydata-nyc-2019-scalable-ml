@@ -38,26 +38,13 @@ helm:
 	helm init --service-account tiller
 	kubectl --namespace=kube-system patch deployment tiller-deploy --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
 
-jupyterhub:
-	helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
+dask:
 	helm repo update
-	@echo "Installing pangeo..."
-	@helm install pangeo/pangeo \
-		--version=$(pangeo_version) \
-		--name=$(name) \
+	@echo "Installing dask"
+	@helm upgrade --install \
+	    $(name) stable/dask \
 		--namespace=$(name) \
 		-f $(config) \
-		-f secret-config.yaml
-		--set jupyterhub.proxy.secretToken="${JUPYTERHUB_PROXY_TOKEN}"
-
-
-upgrade:
-	@echo "Upgrading..."
-	@helm upgrade $(name) pangeo/pangeo \
-		--version=$(pangeo_version) \
-		-f $(config) \
-		-f secret-config.yaml \
-		--set jupyterhub.proxy.secretToken="${JUPYTERHUB_PROXY_TOKEN}"
 
 delete-helm:
 	helm delete $(name) --purge

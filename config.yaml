@@ -1,25 +1,47 @@
 # config.yaml
 
+jupyter:
+  image:
+    repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
+    tag: "a3606d"
+
+scheduler:
+  image:
+    repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
+    tag: "a3606d"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: cloud.google.com/gke-preemptible
+              operator: DoesNotExist
+
 worker:
+  image:
+    repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
+    tag: "a3606d"
+
   replicas: 8
   resources:
     limits:
-      cpu: 2
+      cpu: 1.8
       memory: 7.5G
     requests:
-      cpu: 2
+      cpu: 1.8
       memory: 7.5G
-  env:
-    - name: EXTRA_CONDA_PACKAGES
-      value: numba xarray -c conda-forge
-    - name: EXTRA_PIP_PACKAGES
-      value: s3fs dask-ml --upgrade
 
-# We want to keep the same packages on the worker and jupyter environments
-jupyter:
-  enabled: true
-  env:
-    - name: EXTRA_CONDA_PACKAGES
-      value: numba xarray matplotlib -c conda-forge
-    - name: EXTRA_PIP_PACKAGES
-      value: s3fs dask-ml --upgrade
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: cloud.google.com/gke-preemptible
+              operator: In
+              values:
+                - "true"
+  tolerations:
+     - key: "preemptible"
+       operator: "Equal"
+       value: "true"
+       effect: "NoSchedule" 

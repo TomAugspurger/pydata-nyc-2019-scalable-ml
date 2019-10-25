@@ -10,7 +10,7 @@ RUN apt-get update \
 USER $NB_USER
 
 RUN conda install --yes --freeze-installed \
-    -c conda-forge -c defaults \
+    -c conda-forge \
     python=3.7 \
     python-blosc \
     cytoolz \
@@ -29,9 +29,6 @@ RUN conda install --yes --freeze-installed \
     python-snappy \
     umap-learn \
     git \
-    defaults::torchvision \
-    defaults::pytorch-cpu \
-    skorch \
     tpot \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0.1 dask-labextension@1.0.1 \
     && conda clean -tipsy \
