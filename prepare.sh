@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-cp dask_config.yaml /etc/dask/dask.yaml
-
 # We start by adding extra apt packages, since pip modules may required library
 if [ "$EXTRA_APT_PACKAGES" ]; then
     echo "EXTRA_APT_PACKAGES environment variable found.  Installing."
