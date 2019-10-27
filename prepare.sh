@@ -1,6 +1,9 @@
 #!/bin/bash
 
-set -x
+set -euo pipefail
+
+mkdir -p ${KERNEL_PYTHON_PREFIX}/etc/dask
+cp dask_config.yaml ${KERNEL_PYTHON_PREFIX}/etc/dask/dask.yaml
 
 # We start by adding extra apt packages, since pip modules may required library
 if [ "$EXTRA_APT_PACKAGES" ]; then

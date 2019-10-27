@@ -28,6 +28,9 @@ RUN conda install --yes --freeze-installed \
     fastparquet \
     python-snappy \
     umap-learn \
+    py-xgboost \
+    dask-xgboost \
+    dask-kubernetes \
     git \
     tpot \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0.1 dask-labextension@1.0.1 \
@@ -55,6 +58,7 @@ RUN mkdir /opt/app \
 # in the `--chown` statement, so we need to hardcode these values.
 COPY --chown=1000:100 examples/ /home/$NB_USER/examples
 COPY prepare.sh /usr/bin/prepare.sh
+COPY dask_config.yaml /home/$NB_USER/
 
 USER $NB_USER
 

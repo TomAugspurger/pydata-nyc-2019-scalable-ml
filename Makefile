@@ -32,19 +32,20 @@ cluster:
 	gcloud container clusters get-credentials $(cluster_name) --zone $(zone)
 
 helm:
-	kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(user)
-	kubectl --namespace kube-system create sa tiller
+	kubectl --namespace kube-system create serviceaccount tiller
 	kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-	helm init --service-account tiller
-	kubectl --namespace=kube-system patch deployment tiller-deploy --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
+	helm init --service-account tiller --wait
+	kubectl patch deployment tiller-deploy --namespace=kube-system --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
 
 dask:
+	helm repo add pangeo https://pangeo-data.github.io/helm-chart/
 	helm repo update
 	@echo "Installing dask"
 	@helm upgrade --install \
-	    $(name) stable/dask \
+	    $(name) pangeo/pangeo \
 		--namespace=$(name) \
 		-f $(config) \
+		-f secret_$(config) \
 
 delete-helm:
 	helm delete $(name) --purge
@@ -70,3 +71,7 @@ docker: Dockerfile
 
 commit:
 	echo "$$(git rev-parse HEAD)"
+
+
+print-node-pools:
+	gcloud container node-pools list --cluster=$(name)

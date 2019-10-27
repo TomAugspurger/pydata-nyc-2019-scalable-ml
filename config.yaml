@@ -1,47 +1,67 @@
 # config.yaml
 
-jupyter:
-  image:
-    repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-    tag: "a3606d"
+jupyterhub:
+  singleuser:
+    image:
+      name: "gcr.io/dask-demo-182016/dask-ml-pydata"
+      tag: "3373ec"
+    defaultUrl: "/lab"
+    cmd: jupyter-labhub
+    serviceAccountName: daskkubernetes
+  prePuller:
+    hook:
+      enabled: false
 
-scheduler:
-  image:
-    repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-    tag: "a3606d"
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: cloud.google.com/gke-preemptible
-              operator: DoesNotExist
+# jupyter:
+#   image:
+#     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
+#     tag: "3373ec"
 
-worker:
-  image:
-    repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-    tag: "a3606d"
+#   affinity:
+#     nodeAffinity:
+#       requiredDuringSchedulingIgnoredDuringExecution:
+#         nodeSelectorTerms:
+#           - matchExpressions:
+#             - key: cloud.google.com/gke-preemptible
+#               operator: DoesNotExist
 
-  replicas: 8
-  resources:
-    limits:
-      cpu: 1.8
-      memory: 7.5G
-    requests:
-      cpu: 1.8
-      memory: 7.5G
+# scheduler:
+#   image:
+#     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
+#     tag: "3373ec"
+#   affinity:
+#     nodeAffinity:
+#       requiredDuringSchedulingIgnoredDuringExecution:
+#         nodeSelectorTerms:
+#           - matchExpressions:
+#             - key: cloud.google.com/gke-preemptible
+#               operator: DoesNotExist
 
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: cloud.google.com/gke-preemptible
-              operator: In
-              values:
-                - "true"
-  tolerations:
-     - key: "preemptible"
-       operator: "Equal"
-       value: "true"
-       effect: "NoSchedule" 
+# worker:
+#   image:
+#     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
+#     tag: "3373ec"
+
+#   replicas: 2
+#   resources:
+#     limits:
+#       cpu: 2
+#       memory: 7.5G
+#     requests:
+#       cpu: 2
+#       memory: 7.5G
+
+#   affinity:
+#     nodeAffinity:
+#       requiredDuringSchedulingIgnoredDuringExecution:
+#         nodeSelectorTerms:
+#           - matchExpressions:
+#             - key: cloud.google.com/gke-preemptible
+#               operator: In
+#               values:
+#                 - "true"
+#   tolerations:
+#      - key: "preemptible"
+#        operator: "Equal"
+#        value: "true"
+#        effect: "NoSchedule" 
