@@ -4,7 +4,7 @@ jupyterhub:
   singleuser:
     image:
       name: "gcr.io/dask-demo-182016/dask-ml-pydata"
-      tag: "3373ec"
+      tag: "ef7b4f"
     defaultUrl: "/lab"
     cmd: jupyter-labhub
     serviceAccountName: daskkubernetes
@@ -15,7 +15,7 @@ jupyterhub:
 # jupyter:
 #   image:
 #     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "3373ec"
+#     tag: "ef7b4f"
 
 #   affinity:
 #     nodeAffinity:
@@ -28,7 +28,7 @@ jupyterhub:
 # scheduler:
 #   image:
 #     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "3373ec"
+#     tag: "ef7b4f"
 #   affinity:
 #     nodeAffinity:
 #       requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,7 +40,7 @@ jupyterhub:
 # worker:
 #   image:
 #     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "3373ec"
+#     tag: "ef7b4f"
 
 #   replicas: 2
 #   resources:
