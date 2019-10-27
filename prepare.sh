@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -x
 
 # We start by adding extra apt packages, since pip modules may required library
 if [ "$EXTRA_APT_PACKAGES" ]; then
