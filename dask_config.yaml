@@ -37,6 +37,22 @@ kubernetes:
             cpu: 1
             memory: "11.5G"
 
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                  - key: cloud.google.com/gke-preemptible
+                    operator: In
+                    values:
+                      - "true"
+        tolerations:
+           - key: "preemptible"
+             operator: "Equal"
+             value: "true"
+             effect: "NoSchedule" 
+ 
+
 labextension:
   factory:
     module: dask_kubernetes

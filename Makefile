@@ -28,7 +28,8 @@ cluster:
 	    --zone=$(zone) \
 	    --enable-autorepair \
 	    --enable-autoscaling --min-nodes=1 --max-nodes=200 \
-	    --node-taints preemptible=true:NoSchedule
+		--node-taints k8s.dask.org/dedicated=worker:NoSchedule \ 
+		--node-taints k8s.dask.org_dedicated=worker:NoSchedule
 	gcloud container clusters get-credentials $(cluster_name) --zone $(zone)
 
 helm:

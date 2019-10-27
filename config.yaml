@@ -4,10 +4,22 @@ jupyterhub:
   singleuser:
     image:
       name: "gcr.io/dask-demo-182016/dask-ml-pydata"
-      tag: "9afff0"
+      tag: "d985c7"
     defaultUrl: "/lab"
     cmd: jupyter-labhub
     serviceAccountName: daskkubernetes
+    storage:
+      capacity: 40Gi
+  lifecycleHooks:
+      postStart:
+        exec:
+          command:
+            - "sh"
+            - "-c"
+            - >
+              mkdir -p /home/jovyan/.config/dask
+              cp /tmp/dask_config.yaml /home/jovyan/.config/dask/dask_config.yaml
+ 
   prePuller:
     hook:
       enabled: false
@@ -15,7 +27,7 @@ jupyterhub:
 # jupyter:
 #   image:
 #     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "9afff0"
+#     tag: "d985c7"
 
 #   affinity:
 #     nodeAffinity:
@@ -28,7 +40,7 @@ jupyterhub:
 # scheduler:
 #   image:
 #     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "9afff0"
+#     tag: "d985c7"
 #   affinity:
 #     nodeAffinity:
 #       requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,7 +52,7 @@ jupyterhub:
 # worker:
 #   image:
 #     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "9afff0"
+#     tag: "d985c7"
 
 #   replicas: 2
 #   resources:

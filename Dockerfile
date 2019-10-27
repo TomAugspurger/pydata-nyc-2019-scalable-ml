@@ -58,7 +58,7 @@ RUN mkdir /opt/app \
 # in the `--chown` statement, so we need to hardcode these values.
 COPY --chown=1000:100 examples/ /home/$NB_USER/examples
 COPY prepare.sh /usr/bin/prepare.sh
-COPY dask_config.yaml /home/$NB_USER/
+COPY dask_config.yaml /tmp/dask_config.yaml
 
 USER $NB_USER
 
