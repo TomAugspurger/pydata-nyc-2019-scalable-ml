@@ -17,7 +17,7 @@ cluster:
 	    --machine-type=$(machine_type) \
 	    --zone=$(zone) \
 	    --enable-autorepair \
-	    --enable-autoscaling --min-nodes=1 --max-nodes=150 \
+	    --enable-autoscaling --min-nodes=0 --max-nodes=150 \
 		--no-enable-basic-auth \
 		--no-issue-client-certificate \
 		--metadata disable-legacy-endpoints=true
@@ -27,7 +27,7 @@ cluster:
 	    --machine-type=$(worker_machine_type) \
 	    --zone=$(zone) \
 	    --enable-autorepair \
-	    --enable-autoscaling --min-nodes=1 --max-nodes=200 \
+	    --enable-autoscaling --min-nodes=0 --max-nodes=200 \
 	    --node-taints k8s.dask.org/dedicated=worker:NoSchedule --node-taints k8s.dask.org_dedicated=worker:NoSchedule
 	gcloud container clusters get-credentials $(cluster_name) --zone $(zone)
 
