@@ -4,76 +4,27 @@ jupyterhub:
   singleuser:
     image:
       name: "gcr.io/dask-demo-182016/dask-ml-pydata"
-      tag: "d985c7"
+      tag: "883c90"
     defaultUrl: "/lab"
     cmd: jupyter-labhub
     serviceAccountName: daskkubernetes
+    lifecycleHooks:
+        postStart:
+          exec:
+            command:
+              - "sh"
+              - "-c"
+              - >
+                mkdir -p /home/jovyan/.config/dask
+                cp /tmp/dask_config.yaml /home/jovyan/.config/dask/dask_config.yaml
     storage:
       capacity: 40Gi
-  lifecycleHooks:
-      postStart:
-        exec:
-          command:
-            - "sh"
-            - "-c"
-            - >
-              mkdir -p /home/jovyan/.config/dask
-              cp /tmp/dask_config.yaml /home/jovyan/.config/dask/dask_config.yaml
+
+  hub:
+    extraConfig:
+      jupyterlab: |
+        c.Spawner.cmd = ['jupyter-labhub']
  
   prePuller:
     hook:
       enabled: false
-
-# jupyter:
-#   image:
-#     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "d985c7"
-
-#   affinity:
-#     nodeAffinity:
-#       requiredDuringSchedulingIgnoredDuringExecution:
-#         nodeSelectorTerms:
-#           - matchExpressions:
-#             - key: cloud.google.com/gke-preemptible
-#               operator: DoesNotExist
-
-# scheduler:
-#   image:
-#     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "d985c7"
-#   affinity:
-#     nodeAffinity:
-#       requiredDuringSchedulingIgnoredDuringExecution:
-#         nodeSelectorTerms:
-#           - matchExpressions:
-#             - key: cloud.google.com/gke-preemptible
-#               operator: DoesNotExist
-
-# worker:
-#   image:
-#     repository: "gcr.io/dask-demo-182016/dask-ml-pydata"
-#     tag: "d985c7"
-
-#   replicas: 2
-#   resources:
-#     limits:
-#       cpu: 2
-#       memory: 7.5G
-#     requests:
-#       cpu: 2
-#       memory: 7.5G
-
-#   affinity:
-#     nodeAffinity:
-#       requiredDuringSchedulingIgnoredDuringExecution:
-#         nodeSelectorTerms:
-#           - matchExpressions:
-#             - key: cloud.google.com/gke-preemptible
-#               operator: In
-#               values:
-#                 - "true"
-#   tolerations:
-#      - key: "preemptible"
-#        operator: "Equal"
-#        value: "true"
-#        effect: "NoSchedule" 
