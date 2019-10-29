@@ -33,6 +33,7 @@ RUN conda install --yes --freeze-installed \
     dask-kubernetes \
     git \
     tpot \
+    matplotlib \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0.1 dask-labextension@1.0.1 \
     && conda clean -tipsy \
     && jupyter lab clean \
