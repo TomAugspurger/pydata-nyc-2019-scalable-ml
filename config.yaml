@@ -4,7 +4,7 @@ jupyterhub:
   singleuser:
     image:
       name: "gcr.io/dask-demo-182016/dask-ml-pydata"
-      tag: "c2763f"
+      tag: "0c01c5"
     defaultUrl: "/lab"
     cmd: jupyter-labhub
     serviceAccountName: daskkubernetes
