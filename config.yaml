@@ -4,7 +4,7 @@ jupyterhub:
   singleuser:
     image:
       name: "gcr.io/dask-demo-182016/dask-ml-pydata"
-      tag: "883c90"
+      tag: "c2763f"
     defaultUrl: "/lab"
     cmd: jupyter-labhub
     serviceAccountName: daskkubernetes
@@ -15,8 +15,10 @@ jupyterhub:
               - "sh"
               - "-c"
               - >
-                mkdir -p /home/jovyan/.config/dask
-                cp /tmp/dask_config.yaml /home/jovyan/.config/dask/dask_config.yaml
+                mkdir -p /home/jovyan/.config/dask && \
+                cp /tmp/dask_config.yaml /home/jovyan/.config/dask/dask_config.yaml && \
+                cp -R /tmp/examples examples
+
     storage:
       capacity: 40Gi
 
