@@ -8,25 +8,20 @@ jupyterhub:
     defaultUrl: "/lab"
     cmd: jupyter-labhub
     serviceAccountName: daskkubernetes
-    lifecycleHooks:
-        postStart:
-          exec:
-            command:
-              - "sh"
-              - "-c"
-              - >
-                mkdir -p /home/jovyan/.config/dask && \
-                cp /tmp/dask_config.yaml /home/jovyan/.config/dask/dask_config.yaml && \
-                cp -R /tmp/examples examples
+    # lifecycleHooks:
+    #     postStart:
+    #       exec:
+    #         command:
+    #           - "sh"
+    #           - "-c"
+    #           - >
+    #             mkdir -p /home/jovyan/.config/dask && \
+    #             cp /tmp/dask_config.yaml /home/jovyan/.config/dask/dask_config.yaml && \
+    #             cp -R /tmp/examples examples
 
     storage:
       capacity: 40Gi
 
-  hub:
-    extraConfig:
-      jupyterlab: |
-        c.Spawner.cmd = ['jupyter-labhub']
- 
   prePuller:
     hook:
       enabled: false
